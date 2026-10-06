@@ -51,10 +51,10 @@ function SidebarComponent({ isSidebarOpen, onCloseMobile }) {
         <div className="flex flex-col h-full justify-between">
           <div className="space-y-6">
             <div>
-              <p className="px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
+              <p className="px-3 text-xs font-bold uppercase tracking-wider text-slate-600">
                 Menu Utama
               </p>
-              <nav className="mt-3 space-y-1">
+              <nav aria-label="Menu utama" className="mt-3 space-y-1">
                 {navItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = item.end
@@ -74,6 +74,7 @@ function SidebarComponent({ isSidebarOpen, onCloseMobile }) {
                     >
                       <div className="flex items-center gap-3">
                         <Icon
+                          aria-hidden="true"
                           size={20}
                           className={
                             isActive
@@ -83,7 +84,7 @@ function SidebarComponent({ isSidebarOpen, onCloseMobile }) {
                         />
                         <span>{item.label}</span>
                       </div>
-                      {isActive && <IconChevronRight size={16} />}
+                      {isActive && <IconChevronRight aria-hidden="true" size={16} />}
                     </Link>
                   );
                 })}

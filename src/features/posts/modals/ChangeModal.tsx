@@ -72,32 +72,42 @@ function ChangeModal({ show, onClose, postId }) {
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200"
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="edit-post-modal-title"
         className="w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/70">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
-              <IconEdit size={18} stroke={2.5} />
+              <IconEdit aria-hidden="true" size={18} stroke={2.5} />
             </div>
-            <h3 className="text-base font-bold text-slate-800">Ubah Postingan</h3>
+            <h2 id="edit-post-modal-title" className="text-base font-bold text-slate-800">
+              Ubah Postingan
+            </h2>
           </div>
           <button
             type="button"
             data-testid="close-edit-modal-btn"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            aria-label="Tutup"
+            className="p-1.5 rounded-lg text-slate-600 hover:text-slate-800 hover:bg-slate-100 transition-colors"
           >
-            <IconX size={18} />
+            <IconX aria-hidden="true" size={18} />
           </button>
         </div>
 
         <form onSubmit={handleSave} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-              Deskripsi Postingan <span className="text-red-500">*</span>
+            <label
+              htmlFor="edit-post-description"
+              className="block text-sm font-semibold text-slate-700 mb-1.5"
+            >
+              Deskripsi Postingan <span className="text-red-700">*</span>
             </label>
             <textarea
+              id="edit-post-description"
               data-testid="edit-post-description-input"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -121,16 +131,16 @@ function ChangeModal({ show, onClose, postId }) {
               type="submit"
               data-testid="submit-edit-modal-btn"
               disabled={loading}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-amber-600 hover:bg-amber-700 active:bg-amber-800 rounded-xl shadow-md shadow-amber-600/25 transition-all disabled:opacity-60"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-amber-700 hover:bg-amber-800 active:bg-amber-900 rounded-xl shadow-md shadow-amber-700/25 transition-all disabled:opacity-60"
             >
               {loading ? (
                 <>
-                  <IconLoader2 size={18} className="animate-spin" />
+                  <IconLoader2 aria-hidden="true" size={18} className="animate-spin" />
                   <span>Menyimpan...</span>
                 </>
               ) : (
                 <>
-                  <IconEdit size={18} stroke={2.5} />
+                  <IconEdit aria-hidden="true" size={18} stroke={2.5} />
                   <span>Perbarui Postingan</span>
                 </>
               )}

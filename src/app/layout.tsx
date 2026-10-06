@@ -12,6 +12,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Delcom Post",
   description: "Aplikasi Berbagi Cerita & Postingan Modern",
+  robots: { index: true, follow: true },
   icons: {
     icon: "/logo.svg",
   },

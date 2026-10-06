@@ -12,7 +12,6 @@ import {
 import { showErrorDialog } from "../../../helpers/toolsHelper";
 import {
   IconUser,
-  IconLock,
   IconCamera,
   IconCheck,
   IconLoader2,
@@ -132,7 +131,7 @@ function ProfilePage() {
   if (!profile) {
     return (
       <div className="flex flex-col items-center justify-center py-24">
-        <IconLoader2 size={36} className="text-indigo-600 animate-spin mb-2" />
+        <IconLoader2 aria-hidden="true" size={36} className="text-indigo-600 animate-spin mb-2" />
         <p className="text-sm font-medium text-slate-600">Memuat data profil...</p>
       </div>
     );
@@ -144,7 +143,7 @@ function ProfilePage() {
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
           Profil Akun
         </h1>
-        <p className="text-sm text-slate-500 mt-1">
+        <p className="text-sm text-slate-600 mt-1">
           Kelola informasi identitas, foto profil, dan keamanan akun Anda.
         </p>
       </div>
@@ -156,6 +155,9 @@ function ProfilePage() {
             <img
               src={profile.photo}
               alt={profile.name}
+              width={96}
+              height={96}
+              decoding="async"
               className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md ring-2 ring-indigo-100"
             />
           ) : (
@@ -170,10 +172,11 @@ function ProfilePage() {
             title="Ubah Foto Profil"
           >
             {loadingPhoto ? (
-              <IconLoader2 size={16} className="animate-spin" />
+              <IconLoader2 aria-hidden="true" size={16} className="animate-spin" />
             ) : (
-              <IconCamera size={16} />
+              <IconCamera aria-hidden="true" size={16} />
             )}
+            <span className="sr-only">Ubah Foto Profil</span>
             <input
               type="file"
               data-testid="profile-photo-file-input"
@@ -186,10 +189,10 @@ function ProfilePage() {
 
         <div className="text-center sm:text-left space-y-1">
           <h2 className="text-xl font-bold text-slate-800">{profile.name}</h2>
-          <p className="text-sm text-slate-500">{profile.email}</p>
+          <p className="text-sm text-slate-600">{profile.email}</p>
           <div className="pt-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/60">
-              <IconCheck size={14} /> Terverifikasi
+              <IconCheck aria-hidden="true" size={14} /> Terverifikasi
             </span>
           </div>
         </div>
@@ -200,19 +203,24 @@ function ProfilePage() {
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-5">
           <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
             <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
-              <IconUser size={18} />
+              <IconUser aria-hidden="true" size={18} />
             </div>
             <h3 className="font-bold text-slate-800">Ubah Biodata</h3>
           </div>
 
           <form onSubmit={handleUpdateProfile} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+              <label
+                htmlFor="profile-name-input"
+                className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5"
+              >
                 Nama Lengkap
               </label>
               <input
                 type="text"
+                id="profile-name-input"
                 data-testid="profile-name-input"
+                autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all"
@@ -221,12 +229,17 @@ function ProfilePage() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+              <label
+                htmlFor="profile-email-input"
+                className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5"
+              >
                 Alamat Email
               </label>
               <input
                 type="email"
+                id="profile-email-input"
                 data-testid="profile-email-input"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all"
@@ -243,7 +256,7 @@ function ProfilePage() {
               >
                 {loadingProfile ? (
                   <>
-                    <IconLoader2 size={18} className="animate-spin" />
+                    <IconLoader2 aria-hidden="true" size={18} className="animate-spin" />
                     <span>Menyimpan Perubahan...</span>
                   </>
                 ) : (
@@ -258,53 +271,68 @@ function ProfilePage() {
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-5">
           <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
             <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
-              <IconShieldLock size={18} />
+              <IconShieldLock aria-hidden="true" size={18} />
             </div>
             <h3 className="font-bold text-slate-800">Keamanan & Password</h3>
           </div>
 
           <form onSubmit={handleUpdatePassword} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+              <label
+                htmlFor="current-password-input"
+                className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5"
+              >
                 Kata Sandi Saat Ini
               </label>
               <input
                 type="password"
+                id="current-password-input"
                 data-testid="current-password-input"
+                autoComplete="current-password"
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
                 placeholder="••••••"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+              <label
+                htmlFor="new-password-input"
+                className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5"
+              >
                 Kata Sandi Baru
               </label>
               <input
                 type="password"
+                id="new-password-input"
                 data-testid="new-password-input"
+                autoComplete="new-password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Minimal 6 karakter"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+              <label
+                htmlFor="confirm-password-input"
+                className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5"
+              >
                 Ulangi Kata Sandi Baru
               </label>
               <input
                 type="password"
+                id="confirm-password-input"
                 data-testid="confirm-password-input"
+                autoComplete="new-password"
                 value={newPasswordConfirmation}
                 onChange={(e) => setNewPasswordConfirmation(e.target.value)}
                 placeholder="Konfirmasi kata sandi"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all"
                 required
               />
             </div>
@@ -318,7 +346,7 @@ function ProfilePage() {
               >
                 {loadingPassword ? (
                   <>
-                    <IconLoader2 size={18} className="animate-spin" />
+                    <IconLoader2 aria-hidden="true" size={18} className="animate-spin" />
                     <span>Memperbarui Password...</span>
                   </>
                 ) : (

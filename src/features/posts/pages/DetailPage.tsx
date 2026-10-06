@@ -145,7 +145,7 @@ function DetailPage() {
           data-testid="back-to-posts-link"
           className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors"
         >
-          <IconArrowLeft size={18} />
+          <IconArrowLeft aria-hidden="true" size={18} />
           Kembali ke Linimasa
         </Link>
 
@@ -157,16 +157,16 @@ function DetailPage() {
               onClick={() => setShowCoverModal(true)}
               className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200/60 transition-colors"
             >
-              <IconPhotoUp size={16} />
+              <IconPhotoUp aria-hidden="true" size={16} />
               Ubah Cover
             </button>
             <button
               type="button"
               data-testid="edit-detail-post-btn"
               onClick={() => setShowEditModal(true)}
-              className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200/60 transition-colors"
+              className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200/60 transition-colors"
             >
-              <IconEdit size={16} />
+              <IconEdit aria-hidden="true" size={16} />
               Ubah Data
             </button>
             <button
@@ -175,7 +175,7 @@ function DetailPage() {
               onClick={handleDelete}
               className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl text-red-700 bg-red-50 hover:bg-red-100 border border-red-200/60 transition-colors"
             >
-              <IconTrash size={16} />
+              <IconTrash aria-hidden="true" size={16} />
               Hapus
             </button>
           </div>
@@ -189,6 +189,10 @@ function DetailPage() {
             <img
               src={post.cover}
               alt={post.description || "cover"}
+              width={896}
+              height={320}
+              fetchPriority="high"
+              decoding="async"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
@@ -202,6 +206,9 @@ function DetailPage() {
                 <img
                   src={post.author.photo}
                   alt={post.author?.name || "author"}
+                  width={48}
+                  height={48}
+                  decoding="async"
                   className="w-12 h-12 rounded-full object-cover border border-slate-200"
                 />
               ) : (
@@ -213,13 +220,13 @@ function DetailPage() {
                 <p className="text-sm font-bold text-slate-800">
                   {post.author?.name || "Tanpa Nama"}
                 </p>
-                <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                  <IconCalendar size={13} className="shrink-0" />
+                <div className="flex items-center gap-1.5 text-xs text-slate-600">
+                  <IconCalendar aria-hidden="true" size={13} className="shrink-0" />
                   <span>{formatDate(post.created_at)}</span>
                 </div>
               </div>
             </div>
-            <span className="font-mono text-xs font-bold text-slate-300">
+            <span className="font-mono text-xs font-bold text-slate-500">
               #{post.id}
             </span>
           </div>
@@ -235,16 +242,20 @@ function DetailPage() {
               onClick={handleLike}
               className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl border transition-colors ${
                 liked
-                  ? "text-rose-600 bg-rose-50 border-rose-200"
-                  : "text-slate-600 bg-white border-slate-200 hover:bg-rose-50 hover:text-rose-600"
+                  ? "text-rose-700 bg-rose-50 border-rose-200"
+                  : "text-slate-600 bg-white border-slate-200 hover:bg-rose-50 hover:text-rose-700"
               }`}
             >
-              {liked ? <IconHeartFilled size={18} /> : <IconHeart size={18} />}
+              {liked ? (
+                <IconHeartFilled aria-hidden="true" size={18} />
+              ) : (
+                <IconHeart aria-hidden="true" size={18} />
+              )}
               <span>{likeCount}</span>
               <span>Suka</span>
             </button>
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500">
-              <IconMessageCircle size={18} className="text-sky-500" />
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600">
+              <IconMessageCircle aria-hidden="true" size={18} className="text-sky-500" />
               {comments.length} Komentar
             </span>
           </div>
@@ -258,24 +269,25 @@ function DetailPage() {
         <form onSubmit={handleSubmitComment} className="flex items-start gap-3">
           <input
             type="text"
+            aria-label="Tulis komentar"
             data-testid="comment-input"
             value={comment}
             onChange={changeComment}
             placeholder="Tulis komentar..."
-            className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all text-sm"
+            className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all text-sm"
           />
           <button
             type="submit"
             data-testid="submit-comment-btn"
             className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-md shadow-indigo-600/25 transition-all"
           >
-            <IconSend size={16} />
+            <IconSend aria-hidden="true" size={16} />
             Kirim
           </button>
         </form>
 
         {comments.length === 0 ? (
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-600">
             Belum ada komentar pada postingan ini.
           </p>
         ) : (
@@ -290,7 +302,7 @@ function DetailPage() {
                   <p className="text-sm text-slate-700 whitespace-pre-wrap">
                     {item.comment}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">
+                  <p className="text-xs text-slate-600 mt-1">
                     {formatDate(item.created_at)}
                   </p>
                 </div>
@@ -299,10 +311,11 @@ function DetailPage() {
                     type="button"
                     data-testid={`delete-comment-${item.id}`}
                     onClick={() => handleDeleteComment(item.id)}
-                    className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors shrink-0"
+                    className="p-1.5 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors shrink-0"
                     title="Hapus Komentar"
+                    aria-label="Hapus komentar"
                   >
-                    <IconTrash size={16} />
+                    <IconTrash aria-hidden="true" size={16} />
                   </button>
                 )}
               </li>
