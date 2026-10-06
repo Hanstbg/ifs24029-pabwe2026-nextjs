@@ -11,6 +11,7 @@ import {
   IconMenu2,
   IconX,
 } from "@tabler/icons-react";
+import { getImageUrl } from "@/lib/config";
 
 function NavbarComponent({ profile, handleLogout, onToggleSidebar, isSidebarOpen }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -68,7 +69,7 @@ function NavbarComponent({ profile, handleLogout, onToggleSidebar, isSidebarOpen
           >
             {profile?.photo ? (
               <img
-                src={profile.photo}
+                src={getImageUrl(profile.photo)}
                 alt=""
                 width={32}
                 height={32}

@@ -15,6 +15,7 @@ import {
 } from "../states/action";
 import { formatDate, showConfirmDialog } from "../../../helpers/toolsHelper";
 import type { Post } from "@/types";
+import { getImageUrl } from "@/lib/config";
 import {
   IconPlus,
   IconArticle,
@@ -272,7 +273,7 @@ function HomePage() {
               >
                 {post.cover && (
                   <img
-                    src={post.cover}
+                    src={getImageUrl(post.cover)}
                     alt={post.description || "cover"}
                     width={176}
                     height={128}
@@ -286,7 +287,7 @@ function HomePage() {
                   <div className="flex items-center gap-3">
                     {post.author?.photo ? (
                       <img
-                        src={post.author.photo}
+                        src={getImageUrl(post.author.photo)}
                         alt={post.author?.name || "author"}
                         width={36}
                         height={36}

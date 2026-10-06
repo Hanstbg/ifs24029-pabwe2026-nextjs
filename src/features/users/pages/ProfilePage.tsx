@@ -10,6 +10,7 @@ import {
   setIsChangeProfilePasswordActionCreator,
 } from "../states/action";
 import { showErrorDialog } from "../../../helpers/toolsHelper";
+import { getImageUrl } from "@/lib/config";
 import {
   IconUser,
   IconCamera,
@@ -153,7 +154,7 @@ function ProfilePage() {
         <div className="relative group">
           {profile.photo ? (
             <img
-              src={profile.photo}
+              src={getImageUrl(profile.photo)}
               alt={profile.name}
               width={96}
               height={96}

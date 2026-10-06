@@ -23,6 +23,7 @@ import { formatDate, showConfirmDialog } from "../../../helpers/toolsHelper";
 import useInput from "../../../hooks/useInput";
 import ChangeCoverModal from "../modals/ChangeCoverModal";
 import ChangeModal from "../modals/ChangeModal";
+import { getImageUrl } from "@/lib/config";
 import {
   IconArrowLeft,
   IconPhotoUp,
@@ -187,7 +188,7 @@ function DetailPage() {
         {post.cover && (
           <div className="relative w-full h-64 sm:h-80 bg-slate-900 overflow-hidden">
             <img
-              src={post.cover}
+              src={getImageUrl(post.cover)}
               alt={post.description || "cover"}
               width={896}
               height={320}
@@ -204,7 +205,7 @@ function DetailPage() {
             <div className="flex items-center gap-3">
               {post.author?.photo ? (
                 <img
-                  src={post.author.photo}
+                  src={getImageUrl(post.author.photo)}
                   alt={post.author?.name || "author"}
                   width={48}
                   height={48}

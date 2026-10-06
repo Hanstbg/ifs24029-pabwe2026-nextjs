@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import { asyncSetUsers } from "../states/action";
 import { formatDate } from "../../../helpers/toolsHelper";
+import { getImageUrl } from "@/lib/config";
 import {
   IconUsers,
   IconSearch,
@@ -101,7 +102,7 @@ function UsersPage() {
                 <div className="flex items-start gap-3.5">
                   {u.photo ? (
                     <img
-                      src={u.photo}
+                      src={getImageUrl(u.photo)}
                       alt={u.name}
                       width={48}
                       height={48}
