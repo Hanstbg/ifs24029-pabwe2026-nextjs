@@ -1,4 +1,3 @@
-import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -37,21 +36,9 @@ const port = getPort();
 
 const nextArgs = action === "start" ? ["start", "-p", port] : ["dev", "--turbopack", "-p", port];
 
-const nextBin = require.resolve("next/dist/bin/next");
+process.env.PORT = port;
+process.env.APP_PORT = port;
 
-const child = spawn(process.execPath, [nextBin, ...nextArgs], {
-  stdio: "inherit",
-  env: {
-    ...process.env,
-    PORT: port,
-    APP_PORT: port,
-  },
-});
-
-child.on("exit", (code, signal) => {
-  if (signal) {
-    process.kill(process.pid, signal);
-  } else {
-    process.exit(code ?? 0);
-  }
-});
+// Jalankan CLI Next.js di dalam proses yang sama (tanpa child process).
+process.argv = [process.argv[0], "next", ...nextArgs];
+require("next/dist/bin/next");
