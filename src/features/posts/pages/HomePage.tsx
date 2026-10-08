@@ -249,7 +249,7 @@ function HomePage() {
         </div>
 
         {/* Post list */}
-        {loadingPosts && filteredPosts.length === 0 ? (
+        {loadingPosts && filteredPosts.length === 0 && (
           <div className="px-6 py-16 text-center text-slate-600">
             <IconLoader2
               aria-hidden="true"
@@ -258,12 +258,16 @@ function HomePage() {
             />
             <p className="font-medium text-slate-600">Memuat daftar postingan...</p>
           </div>
-        ) : filteredPosts.length === 0 ? (
+        )}
+
+        {!loadingPosts && filteredPosts.length === 0 && (
           <div className="px-6 py-16 text-center text-slate-600">
             <IconArticle aria-hidden="true" size={40} className="mx-auto text-slate-300 mb-2" />
             <p className="font-medium">Belum ada postingan yang cocok.</p>
           </div>
-        ) : (
+        )}
+
+        {filteredPosts.length > 0 && (
           <div className="divide-y divide-slate-100">
             {filteredPosts.map((post) => (
               <article

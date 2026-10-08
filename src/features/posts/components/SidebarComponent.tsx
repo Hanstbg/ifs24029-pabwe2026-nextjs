@@ -36,10 +36,12 @@ function SidebarComponent({ isSidebarOpen, onCloseMobile }) {
   return (
     <>
       {isSidebarOpen && (
-        <div
+        <button
+          type="button"
           data-testid="sidebar-backdrop"
+          aria-label="Tutup menu"
           onClick={onCloseMobile}
-          className="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-xs md:hidden"
+          className="fixed inset-0 z-30 w-full h-full cursor-default bg-slate-900/40 backdrop-blur-xs md:hidden"
         />
       )}
 

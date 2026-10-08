@@ -2,6 +2,18 @@ import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
+function parseEnvValue(content: string, key: string): string | undefined {
+  for (const line of content.split(/\r?\n/)) {
+    const separatorIndex = line.indexOf("=");
+    if (separatorIndex === -1) continue;
+    if (line.slice(0, separatorIndex).trim() === key) {
+      const value = line.slice(separatorIndex + 1).trim();
+      if (value) return value;
+    }
+  }
+  return undefined;
+}
+
 function getPort(): string {
   if (process.env.APP_PORT) return process.env.APP_PORT.trim();
   if (process.env.PORT) return process.env.PORT.trim();
@@ -10,14 +22,8 @@ function getPort(): string {
   if (fs.existsSync(envPath)) {
     try {
       const content = fs.readFileSync(envPath, "utf-8");
-      const match = content.match(/^\s*APP_PORT\s*=\s*(.+)$/m);
-      if (match && match[1]) {
-        return match[1].trim();
-      }
-      const portMatch = content.match(/^\s*PORT\s*=\s*(.+)$/m);
-      if (portMatch && portMatch[1]) {
-        return portMatch[1].trim();
-      }
+      const port = parseEnvValue(content, "APP_PORT") ?? parseEnvValue(content, "PORT");
+      if (port) return port;
     } catch {
       // fallback jika file .env tidak dapat dibaca
     }

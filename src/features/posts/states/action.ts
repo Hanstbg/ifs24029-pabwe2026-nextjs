@@ -38,7 +38,7 @@ export function asyncSetPosts(is_me = "") {
     try {
       const posts = await postApi.getPosts(is_me);
       dispatch(setPostsActionCreator(posts));
-    } catch (error) {
+    } catch {
       dispatch(setPostsActionCreator([]));
     }
   };
@@ -63,7 +63,7 @@ export function asyncSetPost(postId) {
     try {
       const post = await postApi.getPostById(postId);
       dispatch(setPostActionCreator(post));
-    } catch (error) {
+    } catch {
       dispatch(setPostActionCreator(null));
     } finally {
       dispatch(setIsPostActionCreator(true));
