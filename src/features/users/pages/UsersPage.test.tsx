@@ -95,7 +95,10 @@ describe("UsersPage", () => {
     const pendingPromise = new Promise((resolve) => {
       resolveLoad = resolve;
     });
-    vi.spyOn(userAction, "asyncSetUsers").mockReturnValue(() => pendingPromise);
+    const asyncSetUsersSpy = vi
+      .spyOn(userAction, "asyncSetUsers")
+      .mockReturnValue(() => pendingPromise);
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     const { unmount } = renderWithProviders(<UsersPage />, {
       preloadedState: { users: [] },
@@ -103,6 +106,9 @@ describe("UsersPage", () => {
     unmount();
     resolveLoad();
     await pendingPromise;
-    // No error = isMounted guard correctly prevents setState after unmount
+    // isMounted guard mencegah setState setelah unmount
+    expect(asyncSetUsersSpy).toHaveBeenCalled();
+    expect(errorSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
   });
 });

@@ -376,7 +376,10 @@ describe("HomePage", () => {
     const pendingPromise = new Promise((resolve) => {
       resolveLoad = resolve;
     });
-    vi.spyOn(postAction, "asyncSetPosts").mockReturnValue(() => pendingPromise);
+    const asyncSetPostsSpy = vi
+      .spyOn(postAction, "asyncSetPosts")
+      .mockReturnValue(() => pendingPromise);
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     const { unmount } = renderWithProviders(<HomePage />, {
       preloadedState: { profile: mockProfile, posts: [] },
@@ -384,7 +387,10 @@ describe("HomePage", () => {
     unmount();
     resolveLoad();
     await pendingPromise;
-    // No error = isMounted guard correctly prevents setState after unmount
+    // isMounted guard mencegah setState setelah unmount
+    expect(asyncSetPostsSpy).toHaveBeenCalled();
+    expect(errorSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
   });
 
   it("should not update loading state after unmount during isPostDeleted reload", async () => {
@@ -392,7 +398,10 @@ describe("HomePage", () => {
     const pendingPromise = new Promise((resolve) => {
       resolveLoad = resolve;
     });
-    vi.spyOn(postAction, "asyncSetPosts").mockReturnValue(() => pendingPromise);
+    const asyncSetPostsSpy = vi
+      .spyOn(postAction, "asyncSetPosts")
+      .mockReturnValue(() => pendingPromise);
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     const { unmount } = renderWithProviders(<HomePage />, {
       preloadedState: {
@@ -404,6 +413,9 @@ describe("HomePage", () => {
     unmount();
     resolveLoad();
     await pendingPromise;
-    // No error = isMounted guard correctly prevents setState after unmount
+    // isMounted guard mencegah setState setelah unmount
+    expect(asyncSetPostsSpy).toHaveBeenCalled();
+    expect(errorSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
   });
 });
